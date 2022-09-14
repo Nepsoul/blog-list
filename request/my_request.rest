@@ -1,0 +1,17 @@
+GET  http://localhost:3003/blogs/
+
+###
+DELETE   http://localhost:3003/blogs/6321946ac212cecdae661cb6
+
+###
+POST    http://localhost:3003/blogs/
+content-type: application/json
+
+{
+   "title":"landmine",
+   "author":"tk",
+   "url": "jeni",
+   "likes":10
+
+}
+
