@@ -17,21 +17,22 @@ const favoriteBlog = (mostLike) => {
         author: curVal.author,
         likes: curVal.likes,
       };
-    } else {
-      if (preVal.likes < curVal.likes) {
-        preVal = {
-          title: curVal.title,
-          author: curVal.author,
-          likes: curVal.likes,
-        };
-      } else {
-        preVal = {
-          title: curVal.title,
-          author: curVal.author,
-          likes: curVal.likes,
-        };
-      }
     }
+    if (preVal.likes >= curVal.likes) {
+      console.log("else condn", preVal.likes);
+      preVal = {
+        title: preVal.title,
+        author: preVal.author,
+        likes: preVal.likes,
+      };
+    } else {
+      preVal = {
+        title: curVal.title,
+        author: curVal.author,
+        likes: curVal.likes,
+      };
+    }
+
     console.log("val", preVal);
     return preVal;
   }, {});
