@@ -39,6 +39,19 @@ const favoriteBlog = (mostLike) => {
   return highlike;
 };
 
+/*==>alternative<====
+const favoriteBlog = (blogs) => {
+   let topLikes = 0;
+   let topBlog = {};
+   for (let i = 0; i < blogs.length; i++) {
+    if (blogs[i].likes > topLikes) {
+       topLikes = blogs[i].likes;
+      topBlog = blogs[i];
+    }
+   }
+  return topBlog;
+ };*/
+
 module.exports = {
   dummy,
   totalLikes,
