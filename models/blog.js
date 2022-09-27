@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
+const config = require("../utils/config"); //giving root for importing MONGODB_URI from config
 
-const url = process.env.MONGODB_URI;
+const url = config.MONGODB_URI; //using MONGODB_URI variable from config to use different url for different purpose
 
 console.log("connecting to", url);
 
