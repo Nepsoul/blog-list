@@ -22,11 +22,15 @@ const initialBlogs = [
 ];
 
 beforeEach(async () => {
-  await Blog.deleteMany({});
-  let blogObject = new Blog(initialBlogs[0]);
-  await blogObject.save();
-  blogObject = new Blog(initialBlogs[1]);
-  await blogObject.save();
+  try {
+    await Blog.deleteMany({});
+    let blogObject = new Blog(initialBlogs[0]);
+    await blogObject.save();
+    blogObject = new Blog(initialBlogs[1]);
+    await blogObject.save();
+  } catch (error) {
+    next(error);
+  }
 });
 
 test("notes are returned as json", async () => {
