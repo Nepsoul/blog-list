@@ -54,6 +54,28 @@ test("a specific note is within the returned notes", async () => {
   expect(blogs).toContain("shoes");
 });
 
+test("a valid note can be added", async () => {
+  const newBlog = {
+    title: "hackers arise",
+    author: "liquid",
+    url: "url",
+    likes: 505,
+  };
+
+  await api
+    .post("/api/blogs")
+    .send(newBlog)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+
+  const response = await api.get("/api/blogs");
+
+  const blogs = response.body.map((r) => r.title);
+
+  expect(response.body).toHaveLength(initialBlogs.length + 1);
+  expect(blogs).toContain("hackers arise");
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
