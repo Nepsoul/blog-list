@@ -1,32 +1,32 @@
 const mongoose = require("mongoose");
 const supertest = require("supertest");
 const app = require("../app");
-
+const helper = require("./test_helper");
 const api = supertest(app);
 
 const Blog = require("../models/blog");
 
-const initialBlogs = [
-  {
-    title: "shoes",
-    author: "paul",
-    url: "url",
-    likes: 54,
-  },
-  {
-    title: "winter",
-    author: "zoel",
-    url: "url",
-    likes: 62,
-  },
-];
+// const initialBlogs = [
+//   {
+//     title: "shoes",
+//     author: "paul",
+//     url: "url",
+//     likes: 54,
+//   },
+//   {
+//     title: "winter",
+//     author: "zoel",
+//     url: "url",
+//     likes: 62,
+//   },
+// ];
 
 beforeEach(async () => {
   try {
     await Blog.deleteMany({});
-    let blogObject = new Blog(initialBlogs[0]);
+    let blogObject = new Blog(helper.initialBlogs[0]);
     await blogObject.save();
-    blogObject = new Blog(initialBlogs[1]);
+    blogObject = new Blog(helper.initialBlogs[1]);
     await blogObject.save();
   } catch (error) {
     next(error);
@@ -44,7 +44,7 @@ test("notes are returned as json", async () => {
 test("all notes are returned", async () => {
   const response = await api.get("/api/blogs");
 
-  expect(response.body).toHaveLength(initialBlogs.length);
+  expect(response.body).toHaveLength(helper.initialBlogs.length);
 });
 
 test("a specific note is within the returned notes", async () => {
@@ -73,7 +73,7 @@ test("a valid note can be added", async () => {
 
   const blogs = response.body.map((r) => r.title);
 
-  expect(response.body).toHaveLength(initialBlogs.length + 1);
+  expect(response.body).toHaveLength(helper.initialBlogs.length + 1);
   expect(blogs).toContain("hackers arise");
 });
 
