@@ -1,10 +1,10 @@
-GET  http://localhost:3003/blogs/
+GET  http://localhost:3003/api/blogs/
 
 ###
-DELETE   http://localhost:3003/blogs/6321946ac212cecdae661cb6
+DELETE   http://localhost:3003/api/blogs/6333f3ac81375384346807de
 
 ###
-POST    http://localhost:3003/blogs/
+POST    http://localhost:3003/api/blogs/
 content-type: application/json
 
 {
