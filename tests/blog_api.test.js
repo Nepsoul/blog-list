@@ -77,6 +77,12 @@ test("a valid note can be added", async () => {
   expect(blogs).toContain("hackers arise");
 });
 
+test("verifying blog post by unique id by database _id", async () => {
+  //for verifying _id in id key
+  const response = await api.get("/api/blogs");
+  console.log("iam response", response.body[0].id);
+  expect(response.body[0].id).toBeDefined();
+});
 afterAll(() => {
   mongoose.connection.close();
 });
