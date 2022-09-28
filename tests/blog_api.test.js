@@ -55,6 +55,7 @@ test("a specific note is within the returned notes", async () => {
 });
 
 test("a valid note can be added", async () => {
+  //using post method to test
   const newBlog = {
     title: "hackers arise",
     author: "liquid",
