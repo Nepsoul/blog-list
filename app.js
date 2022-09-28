@@ -12,7 +12,7 @@ App.use(express.json());
 
 App.use(middleware.requestLogger); //middleware imported through middleware.js file
 
-App.use("api/blogs", blogsRouter); //calling blogs api via notesRouter
+App.use("/api/blogs", blogsRouter); //calling blogs api via notesRouter
 
 App.use(middleware.unknownEndpoint); //no route found, error through this middleware
 
