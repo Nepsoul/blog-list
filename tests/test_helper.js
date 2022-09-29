@@ -16,7 +16,7 @@ const initialBlogs = [
 ];
 
 const nonExistingId = async () => {
-  //this func create unique ID
+  //only for checking, this func create new blog and removed, which processed on other block.
   const blog = new Blog({
     title: "willremovethissoon",
     author: "ramen",
