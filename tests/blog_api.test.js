@@ -98,8 +98,16 @@ test("verifying if like property missing from request", async () => {
     .expect("Content-Type", /application\/json/);
   const response = await api.get("/api/blogs");
   const missingLikes = response.body.map((r) => r.likes);
-  console.log("missing", missingLikes);
+  //console.log("missing", missingLikes);
   expect(missingLikes).toContain(0);
+});
+
+test("throwing an error, if title and url property missing", async () => {
+  const newBlog = {
+    author: "kanxi",
+    likes: 409,
+  };
+  await api.post("/api/blogs").send(newBlog).expect(400);
 });
 
 afterAll(() => {
