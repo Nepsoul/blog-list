@@ -5,6 +5,7 @@ const helper = require("./test_helper");
 const api = supertest(app);
 
 const Blog = require("../models/blog");
+const { response } = require("../app");
 
 // const initialBlogs = [
 //   {
@@ -80,9 +81,27 @@ test("a valid note can be added", async () => {
 test("verifying blog post by unique id by database _id", async () => {
   //for verifying _id in id key
   const response = await api.get("/api/blogs");
-  console.log("iam response", response.body[0].id);
+  //console.log("iam response", response.body[0].id);
   expect(response.body[0].id).toBeDefined();
 });
+
+test("verifying if like property missing from request", async () => {
+  const newBlog = {
+    title: "heroku",
+    author: "serizawa",
+    url: "url.com",
+  };
+  await api
+    .post("/api/blogs")
+    .send(newBlog)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+  const response = await api.get("/api/blogs");
+  const missingLikes = response.body.map((r) => r.likes);
+  console.log("missing", missingLikes);
+  expect(missingLikes).toContain(0);
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });

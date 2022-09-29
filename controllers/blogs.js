@@ -24,6 +24,11 @@ blogsRouter.get("/:id", async (request, response, next) => {
 blogsRouter.post("/", async (request, response, next) => {
   const body = request.body;
 
+  //for checking if like is not given
+  if (body.likes === undefined) {
+    body.likes = 0;
+  }
+
   const blog = new Blog({
     title: body.title,
     author: body.author,
