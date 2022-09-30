@@ -110,6 +110,18 @@ test("throwing an error, if title and url property missing", async () => {
   await api.post("/api/blogs").send(newBlog).expect(400);
 });
 
+test("deleting single blog post", async () => {
+  const deleteBlog = await Blog.find({ title: "shoes" });
+  console.log("line 115", deleteBlog);
+  await api.delete(`/api/blogs/${deleteBlog[0]._id}`).expect(204);
+  const remainedBlog = await Blog.find({});
+  console.log("iam bachakhuch", remainedBlog);
+  const blogTitle = remainedBlog.map((r) => {
+    return r.title;
+  });
+  expect(blogTitle).not.toContain("shoes");
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
