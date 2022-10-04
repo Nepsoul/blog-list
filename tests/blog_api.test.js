@@ -7,21 +7,6 @@ const api = supertest(app);
 const Blog = require("../models/blog");
 const { response } = require("../app");
 
-// const initialBlogs = [
-//   {
-// title: "hackers arise",
-// author: "liquid",
-// url: "url",
-// likes: 50,
-//   },
-//   {
-//     title: "winter",
-//     author: "zoel",
-//     url: "url",
-//     likes: 62,
-//   },
-// ];
-
 beforeEach(async () => {
   try {
     await Blog.deleteMany({});
@@ -34,7 +19,7 @@ beforeEach(async () => {
   }
 });
 
-test("notes are returned as json", async () => {
+test("blogs are returned as json", async () => {
   //this func is used for checking whether note is returned as json or not.
   await api
     .get("/api/blogs")
@@ -42,20 +27,20 @@ test("notes are returned as json", async () => {
     .expect("Content-Type", /application\/json/); //regular expression
 });
 
-test("all notes are returned", async () => {
+test("all blogs are returned", async () => {
   const response = await api.get("/api/blogs");
 
   expect(response.body).toHaveLength(helper.initialBlogs.length);
 });
 
-test("a specific note is within the returned notes", async () => {
+test("a specific blog is within the returned blogs", async () => {
   const response = await api.get("/api/blogs");
 
   const blogs = response.body.map((r) => r.title);
   expect(blogs).toContain("hackers arise");
 });
 
-test("a valid note can be added", async () => {
+test("a valid blog can be added", async () => {
   //using post method to test
   const newBlog = {
     title: "shoes",
@@ -98,7 +83,7 @@ test("verifying if like property missing from request", async () => {
     .expect("Content-Type", /application\/json/);
   const response = await api.get("/api/blogs");
   const missingLikes = response.body.map((r) => r.likes);
-  //console.log("missing", missingLikes);
+
   expect(missingLikes).toContain(0);
 });
 
@@ -112,10 +97,10 @@ test("throwing an error, if title and url property missing", async () => {
 
 test("deleting single blog post", async () => {
   const deleteBlog = await Blog.find({ title: "hackers arise" });
-  //console.log("line 115", deleteBlog);
+
   await api.delete(`/api/blogs/${deleteBlog[0]._id}`).expect(204);
   const remainedBlog = await Blog.find({});
-  //console.log("iam remained", remainedBlog);
+
   const blogTitle = remainedBlog.map((r) => {
     return r.title;
   });
