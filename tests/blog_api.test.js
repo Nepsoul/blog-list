@@ -9,10 +9,10 @@ const { response } = require("../app");
 
 // const initialBlogs = [
 //   {
-//     title: "shoes",
-//     author: "paul",
-//     url: "url",
-//     likes: 54,
+// title: "hackers arise",
+// author: "liquid",
+// url: "url",
+// likes: 50,
 //   },
 //   {
 //     title: "winter",
@@ -52,16 +52,16 @@ test("a specific note is within the returned notes", async () => {
   const response = await api.get("/api/blogs");
 
   const blogs = response.body.map((r) => r.title);
-  expect(blogs).toContain("shoes");
+  expect(blogs).toContain("hackers arise");
 });
 
 test("a valid note can be added", async () => {
   //using post method to test
   const newBlog = {
-    title: "hackers arise",
-    author: "liquid",
+    title: "shoes",
+    author: "paul",
     url: "url",
-    likes: 505,
+    likes: 54,
   };
 
   await api
@@ -111,15 +111,26 @@ test("throwing an error, if title and url property missing", async () => {
 });
 
 test("deleting single blog post", async () => {
-  const deleteBlog = await Blog.find({ title: "shoes" });
-  console.log("line 115", deleteBlog);
+  const deleteBlog = await Blog.find({ title: "hackers arise" });
+  //console.log("line 115", deleteBlog);
   await api.delete(`/api/blogs/${deleteBlog[0]._id}`).expect(204);
   const remainedBlog = await Blog.find({});
-  console.log("iam bachakhuch", remainedBlog);
+  //console.log("iam remained", remainedBlog);
   const blogTitle = remainedBlog.map((r) => {
     return r.title;
   });
-  expect(blogTitle).not.toContain("shoes");
+  expect(blogTitle).not.toContain("hackers arise");
+});
+
+test("updating the likes of blog", async () => {
+  const updateBlog = await Blog.find({ title: "hackers arise" });
+
+  const updatedLike = {
+    likes: 100,
+  };
+  await api.put(`/api/blogs/${updateBlog[0].id}`).send(updatedLike).expect(200);
+  const newLike = await Blog.find({ title: "hackers arise" });
+  expect(newLike[0].likes).toBe(100);
 });
 
 afterAll(() => {

@@ -2,10 +2,10 @@ const Blog = require("../models/blog"); //for use of Blog model imported blog
 
 const initialBlogs = [
   {
-    title: "shoes",
-    author: "paul",
+    title: "hackers arise",
+    author: "liquid",
     url: "url",
-    likes: 54,
+    likes: 50,
   },
   {
     title: "winter",
