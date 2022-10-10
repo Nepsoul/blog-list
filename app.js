@@ -3,6 +3,7 @@ const cors = require("cors");
 const middleware = require("./utils/middleware");
 
 const blogsRouter = require("./controllers/blogs");
+const usersRouter = require("./controllers/users"); //creating users router
 const App = express();
 
 //App.use..... is middleware
@@ -13,6 +14,7 @@ App.use(express.json());
 App.use(middleware.requestLogger); //middleware imported through middleware.js file
 
 App.use("/api/blogs", blogsRouter); //calling blogs api via notesRouter
+App.use("/api/users", usersRouter); //for userRouter
 
 App.use(middleware.unknownEndpoint); //no route found, error through this middleware
 
