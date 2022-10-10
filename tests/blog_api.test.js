@@ -60,7 +60,8 @@ test("a valid blog can be added", async () => {
   const blogs = response.body.map((r) => r.title);
 
   expect(response.body).toHaveLength(helper.initialBlogs.length + 1);
-  expect(blogs).toContain("hackers arise");
+  console.log(blogs);
+  expect(blogs).toContain("shoes");
 });
 
 test("verifying blog post by unique id by database _id", async () => {
