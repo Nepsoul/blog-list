@@ -1,5 +1,6 @@
 const blogsRouter = require("express").Router();
 const Blog = require("../models/blog");
+const User = require("../models/user");
 
 blogsRouter.get("/", async (request, response) => {
   const MyBlog = await Blog.find({}); //refactor using async/await
@@ -24,6 +25,8 @@ blogsRouter.get("/:id", async (request, response, next) => {
 blogsRouter.post("/", async (request, response, next) => {
   const body = request.body;
 
+  const user = await User.findById(body.userId);
+
   //for checking if like is not given
   if (body.likes === undefined) {
     body.likes = 0;
@@ -39,9 +42,12 @@ blogsRouter.post("/", async (request, response, next) => {
     author: body.author,
     url: body.url,
     likes: body.likes,
+    user: user._id,
   });
   try {
     const newBlog = await blog.save(); //refactor using async/await,try,catch
+    user.blogs = user.blogs.concat(newBlog._id);
+    await user.save();
     response.status(201).json(newBlog);
   } catch (error) {
     next(error);
