@@ -8,10 +8,20 @@ POST    http://localhost:3003/api/blogs/
 content-type: application/json
 
 {
-   "title":"landmine",
-   "author":"tk",
-   "url": "jeni",
-   "likes":10
+   "title":"festival",
+   "author":"nirnaya",
+   "url": "nepal.com",
+   "likes":160,
+   "userId":"634539bd1a38ad7274f2f585"
 
 }
 
+###
+POST http://localhost:3003/api/users/
+content-type: application/json
+
+{
+   "username":"taro",
+   "name":"hanlo",
+   "password":"groot"
+}
