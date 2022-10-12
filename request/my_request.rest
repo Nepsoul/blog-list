@@ -8,8 +8,8 @@ POST    http://localhost:3003/api/blogs/
 content-type: application/json
 
 {
-   "title":"festival",
-   "author":"nirnaya",
+   "title":"fes",
+   "author":"ni",
    "url": "nepal.com",
    "likes":160,
    "userId":"634539bd1a38ad7274f2f585"
@@ -21,7 +21,7 @@ POST http://localhost:3003/api/users/
 content-type: application/json
 
 {
-   "username":"taro",
+   "username":"p",
    "name":"hanlo",
-   "password":"groot"
+   "password":"p"
 }
