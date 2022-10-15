@@ -3,7 +3,7 @@ const Blog = require("../models/blog");
 const User = require("../models/user");
 
 blogsRouter.get("/", async (request, response) => {
-  const MyBlog = await Blog.find({}).populate("user", { name: 1, username: 1 }); //refactor using async/await
+  const MyBlog = await Blog.find({}).populate("user", { username: 1, name: 1 }); //refactor using async/await
   response.json(MyBlog);
   // Blog.find({}).then((blogs) => {
   //   response.json(blogs);
@@ -24,27 +24,27 @@ blogsRouter.get("/:id", async (request, response, next) => {
 
 blogsRouter.post("/", async (request, response, next) => {
   const body = request.body;
-
+  console.log(body.userId);
   const user = await User.findById(body.userId);
-
-  //for checking if like is not given
-  if (body.likes === undefined) {
-    body.likes = 0;
-  }
-
-  //for checking if title and url missing
-  if (!(body.title || body.url)) {
-    response.status(400).json({ error: "missing property" }).end();
-  }
-
-  const blog = new Blog({
-    title: body.title,
-    author: body.author,
-    url: body.url,
-    likes: body.likes,
-    user: user._id,
-  });
+  console.log(user);
   try {
+    //for checking if like is not given
+    if (body.likes === undefined) {
+      body.likes = 0;
+    }
+
+    //for checking if title and url missing
+    if (!(body.title || body.url)) {
+      response.status(400).json({ error: "missing property" }).end();
+    }
+
+    const blog = new Blog({
+      title: body.title,
+      author: body.author,
+      url: body.url,
+      likes: body.likes,
+      user: user._id,
+    });
     const newBlog = await blog.save(); //refactor using async/await,try,catch
     user.blogs = user.blogs.concat(newBlog._id);
     await user.save();
