@@ -47,6 +47,7 @@ test("a valid blog can be added", async () => {
     author: "paul",
     url: "url",
     likes: 54,
+    userId: "634539bd1a38ad7274f2f585",
   };
 
   await api
@@ -76,6 +77,7 @@ test("verifying if like property missing from request", async () => {
     title: "heroku",
     author: "serizawa",
     url: "url.com",
+    userId: "634539bd1a38ad7274f2f585",
   };
   await api
     .post("/api/blogs")

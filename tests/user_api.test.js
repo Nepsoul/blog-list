@@ -58,4 +58,18 @@ describe("when there is initially one user in db", () => {
     const usersAtEnd = await helper.usersInDb();
     expect(usersAtEnd).toEqual(usersAtStart);
   });
+
+  test("throwing error if both username and password length less than 3 character long", async () => {
+    const usersAtStart = await helper.usersInDb();
+    const newUser = {
+      username: "ps",
+      name: "superuser",
+      password: "sp",
+    };
+    const result = await api.post("/api/users").send(newUser);
+
+    expect(result.status).toBe(400);
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd.length).toEqual(usersAtStart.length);
+  });
 });
