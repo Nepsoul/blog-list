@@ -4,6 +4,7 @@ const middleware = require("./utils/middleware");
 
 const blogsRouter = require("./controllers/blogs");
 const usersRouter = require("./controllers/users"); //creating users router
+const loginRouter = require("./controllers/login");
 const App = express();
 
 //App.use..... is middleware
@@ -15,6 +16,7 @@ App.use(middleware.requestLogger); //middleware imported through middleware.js f
 
 App.use("/api/blogs", blogsRouter); //calling blogs api via notesRouter
 App.use("/api/users", usersRouter); //for userRouter
+App.use("/api/login", loginRouter);
 
 App.use(middleware.unknownEndpoint); //no route found, error through this middleware
 

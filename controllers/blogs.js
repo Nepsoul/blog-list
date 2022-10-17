@@ -1,6 +1,7 @@
 const blogsRouter = require("express").Router();
 const Blog = require("../models/blog");
 const User = require("../models/user");
+const jwt = require("jsonwebtoken");
 
 blogsRouter.get("/", async (request, response) => {
   const MyBlog = await Blog.find({}).populate("user", { username: 1, name: 1 }); //refactor using async/await
@@ -22,10 +23,26 @@ blogsRouter.get("/:id", async (request, response, next) => {
     .catch((error) => next(error));
 });
 
+const getTokenFrom = (request) => {
+  const authorization = request.get("authorization");
+  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+    return authorization.substring(7);
+  }
+  return null;
+};
+
 blogsRouter.post("/", async (request, response, next) => {
   const body = request.body;
-  console.log(body.userId);
-  const user = await User.findById(body.userId);
+  //console.log(body.userId);
+
+  const token = getTokenFrom(request);
+  const decodedToken = jwt.verify(token, process.env.SECRET);
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: "token missing or invalid" });
+  }
+  const user = await User.findById(decodedToken.id);
+  //const user = await User.findById(body.userId);
+
   console.log(user);
   try {
     //for checking if like is not given
