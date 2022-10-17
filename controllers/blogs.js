@@ -34,17 +34,17 @@ const getTokenFrom = (request) => {
 blogsRouter.post("/", async (request, response, next) => {
   const body = request.body;
   //console.log(body.userId);
-
-  const token = getTokenFrom(request);
-  const decodedToken = jwt.verify(token, process.env.SECRET);
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: "token missing or invalid" });
-  }
-  const user = await User.findById(decodedToken.id);
-  //const user = await User.findById(body.userId);
-
-  console.log(user);
   try {
+    const token = getTokenFrom(request);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!decodedToken.id) {
+      return response.status(401).json({ error: "token missing or invalid" });
+    }
+    const user = await User.findById(decodedToken.id);
+    //const user = await User.findById(body.userId);
+
+    console.log(user);
+
     //for checking if like is not given
     if (body.likes === undefined) {
       body.likes = 0;
