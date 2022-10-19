@@ -22,15 +22,15 @@ POST http://localhost:3003/api/users/
 content-type: application/json
 
 {
-   "username":"parse",
-   "name":"hanlo",
-   "password":"paro"
+   "username":"mluukkai",
+   "name":"Matti Luukkainen",
+   "password":"salainen"
 }
 ###
 POST http://localhost:3003/api/login/
 content-type: application/json
 
 {
-   "username":"parse",
-   "password":"paro"
+   "username":"mluukkai",
+   "password":"salainen"
 }
