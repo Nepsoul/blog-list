@@ -122,7 +122,7 @@ describe("test to be tested", () => {
 
     await api.delete(`/api/blogs/${deleteBlog[0]._id}`).set(token).expect(204);
     const remainedBlog = await Blog.find({});
-
+    console.log(remainedBlog);
     const blogTitle = remainedBlog.map((r) => {
       return r.title;
     });

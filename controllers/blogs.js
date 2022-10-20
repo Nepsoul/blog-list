@@ -44,8 +44,6 @@ blogsRouter.post("/", async (request, response, next) => {
     const user = await User.findById(decodedToken.id);
     //const user = await User.findById(body.userId);
 
-    console.log(user);
-
     //for checking if like is not given
     if (body.likes === undefined) {
       body.likes = 0;
