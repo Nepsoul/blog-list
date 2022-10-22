@@ -134,7 +134,10 @@ blogsRouter.put("/:id", async (request, response, next) => {
       url: body.url,
       likes: body.likes,
     };
-
+    const blog = await Blog.findById(request.params.id);
+    if (!blog) {
+      response.status(404).json({ error: "this id does not exist" });
+    }
     const updateBlog = await Blog.findByIdAndUpdate(
       request.params.id,
       newBlog,
