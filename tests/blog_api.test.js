@@ -18,7 +18,7 @@ beforeEach(async () => {
     next(error);
   }
 });
-
+console.log("i am test");
 describe("test to be tested", () => {
   let token;
   beforeEach(async () => {
@@ -58,13 +58,13 @@ describe("test to be tested", () => {
   });
 
   test("a valid blog can be added", async () => {
+    console.log("post test");
     //using post method to test
     const newBlog = {
       title: "shoes",
       author: "paul",
       url: "url",
       likes: 54,
-      userId: "634539bd1a38ad7274f2f585",
     };
     console.log(token);
     await api
@@ -74,12 +74,16 @@ describe("test to be tested", () => {
       .expect(201)
       .expect("Content-Type", /application\/json/);
 
+    //const response = await api.get("/api/blogs");
     const response = await api.get("/api/blogs");
+
+    console.log(response, "from test");
 
     const blogs = response.body.map((r) => r.title);
 
     expect(response.body).toHaveLength(helper.initialBlogs.length + 1);
-    console.log(blogs);
+
+    console.log(blogs, "test blog");
     expect(blogs).toContain("shoes");
   });
 

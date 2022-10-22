@@ -23,25 +23,28 @@ blogsRouter.get("/:id", async (request, response, next) => {
     .catch((error) => next(error));
 });
 
-const getTokenFrom = (request) => {
-  const authorization = request.get("authorization");
-  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
-    return authorization.substring(7);
-  }
-  return null;
-};
+// const getTokenFrom = (request) => {
+//   const authorization = request.get("authorization");
+//   if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+//     return authorization.substring(7);
+//   }
+//   return null;
+// };
+console.log("i am out of post blog");
 
 blogsRouter.post("/", async (request, response, next) => {
-  const body = request.body;
   //console.log(body.userId);
+  console.log("im posst blog");
   try {
-    const token = getTokenFrom(request);
-    console.log(token);
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (!decodedToken.id) {
-      return response.status(401).json({ error: "token missing or invalid" });
-    }
-    const user = await User.findById(decodedToken.id);
+    console.log("i am try blog");
+    const body = request.body;
+    // const token = getTokenFrom(request);
+    // console.log(token);
+    // const decodedToken = jwt.verify(token, process.env.SECRET);
+    // if (!decodedToken.id) {
+    //   return response.status(401).json({ error: "token missing or invalid" });
+    // }
+    // const user = await User.findById(decodedToken.id);
     //const user = await User.findById(body.userId);
 
     //for checking if like is not given
@@ -50,21 +53,39 @@ blogsRouter.post("/", async (request, response, next) => {
     }
 
     //for checking if title and url missing
+    console.log("im in out of if blog");
     if (!(body.title || body.url)) {
-      response.status(400).json({ error: "missing property" }).end();
-    }
+      response.status(400).json({ error: "missing property" });
+    } else {
+      console.log("im else blog");
+      const token = request.token;
+      console.log(token);
+      const decodedToken = jwt.verify(token, process.env.SECRET);
+      console.log(decodedToken, "i am decoded token");
+      if (!decodedToken.id) {
+        response.status(401).json({ error: "token missing or invalid" });
+      }
 
-    const blog = new Blog({
-      title: body.title,
-      author: body.author,
-      url: body.url,
-      likes: body.likes,
-      user: user._id,
-    });
-    const newBlog = await blog.save(); //refactor using async/await,try,catch
-    user.blogs = user.blogs.concat(newBlog._id);
-    await user.save();
-    response.status(201).json(newBlog);
+      const user = await User.findById(decodedToken.id);
+      console.log(user, "i am user blog");
+
+      if (!user) {
+        response.status(401).json({ error: "token missing or invalid" });
+      }
+
+      const blog = new Blog({
+        title: body.title,
+        author: body.author,
+        url: body.url,
+        likes: body.likes,
+        user: user._id,
+      });
+      const newBlog = await blog.save(); //refactor using async/await,try,catch
+      user.blogs = user.blogs.concat(newBlog._id);
+      console.log(user.blogs);
+      await user.save();
+      response.status(201).json(newBlog);
+    }
   } catch (error) {
     next(error);
   }
@@ -79,8 +100,20 @@ blogsRouter.post("/", async (request, response, next) => {
 
 blogsRouter.delete("/:id", async (request, response, next) => {
   try {
-    await Blog.findByIdAndRemove(request.params.id);
-    response.status(204).end();
+    const user = request.user;
+    const blogId = request.params.id;
+    const blog = await Blog.findById(blogId);
+    console.log(blog);
+    console.log(blogId);
+    if (!blog) {
+      return response.status(404).json({ error: "this id does not exist" });
+    }
+
+    if (blog.user.toString() === user.id.toString()) {
+      await Blog.findByIdAndRemove(blogId);
+      //await Blog.findByIdAndRemove(request.params.id);
+    }
+    response.status(204).json({ message: "deleted successfully" }).end();
   } catch (err) {
     next(err);
   }

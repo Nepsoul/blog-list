@@ -13,13 +13,14 @@ App.use(express.json());
 // App.use(express.json());==> if this place at below the app.use give 'undefined', always place at above the code
 
 App.use(middleware.requestLogger); //middleware imported through middleware.js file
+App.use(middleware.tokenExtractor); //register the middleware for refactor token
+App.use(middleware.userExtractor); //register the middleware for refactor token
 
 App.use("/api/blogs", blogsRouter); //calling blogs api via notesRouter
 App.use("/api/users", usersRouter); //for userRouter
 App.use("/api/login", loginRouter);
 
 App.use(middleware.unknownEndpoint); //no route found, error through this middleware
-
 App.use(middleware.errorHandler);
 //this has to be last loaded middleware
 
