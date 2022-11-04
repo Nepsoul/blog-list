@@ -5,20 +5,19 @@ const helper = require("./test_helper");
 const api = supertest(app);
 
 const Blog = require("../models/blog");
-const { response } = require("../app");
 
 beforeEach(async () => {
-  try {
-    await Blog.deleteMany({});
-    let blogObject = new Blog(helper.initialBlogs[0]);
-    await blogObject.save();
-    blogObject = new Blog(helper.initialBlogs[1]);
-    await blogObject.save();
-  } catch (error) {
-    next(error);
-  }
+  await Blog.deleteMany({});
+  // let blogObject = new Blog(helper.initialBlogs[0]);
+  // await blogObject.save();
+  // blogObject = new Blog(helper.initialBlogs[1]);
+  // await blogObject.save();
+  const blogObject = helper.initialBlogs.map((note) => new Blog(note));
+  const promiseArray = blogObject.map((note) => note.save());
+  await Promise.all(promiseArray);
 });
-console.log("i am test");
+
+//console.log("i am test");
 describe("test to be tested", () => {
   let token;
   beforeEach(async () => {
@@ -58,7 +57,7 @@ describe("test to be tested", () => {
   });
 
   test("a valid blog can be added", async () => {
-    console.log("post test");
+    //console.log("post test");
     //using post method to test
     const newBlog = {
       title: "shoes",
@@ -66,7 +65,7 @@ describe("test to be tested", () => {
       url: "url",
       likes: 54,
     };
-    console.log(token);
+    //console.log(token);
     await api
       .post("/api/blogs")
       .send(newBlog)
@@ -77,13 +76,13 @@ describe("test to be tested", () => {
     //const response = await api.get("/api/blogs");
     const response = await api.get("/api/blogs");
 
-    console.log(response, "from test");
+    // console.log(response, "from test");
 
     const blogs = response.body.map((r) => r.title);
 
     expect(response.body).toHaveLength(helper.initialBlogs.length + 1);
 
-    console.log(blogs, "test blog");
+    // console.log(blogs, "test blog");
     expect(blogs).toContain("shoes");
   });
 
@@ -123,10 +122,14 @@ describe("test to be tested", () => {
 
   test("deleting single blog post", async () => {
     const deleteBlog = await Blog.find({ title: "hackers arise" });
-
-    await api.delete(`/api/blogs/${deleteBlog[0]._id}`).set(token).expect(204);
+    console.log(deleteBlog, "deleteblog");
+    const del = await api
+      .delete(`/api/blogs/${deleteBlog[0]._id}`)
+      .set(token)
+      .expect(204);
     const remainedBlog = await Blog.find({});
-    console.log(remainedBlog);
+    // console.log(del, "line 131");
+    console.log(remainedBlog, "remained blog");
     const blogTitle = remainedBlog.map((r) => {
       return r.title;
     });

@@ -7,14 +7,14 @@ const initialBlogs = [
     author: "liquid",
     url: "url",
     likes: 50,
-    user: "634fb2c9db816c7f6b3e3640",
+    user: "63556abc8a17897bf6680fab",
   },
   {
     title: "winter",
     author: "zoel",
     url: "url",
     likes: 62,
-    user: "634fb2c9db816c7f6b3e3640",
+    user: "63556abc8a17897bf6680fab",
   },
 ];
 

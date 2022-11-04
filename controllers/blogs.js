@@ -61,13 +61,13 @@ blogsRouter.post("/", async (request, response, next) => {
       const token = request.token;
       console.log(token);
       const decodedToken = jwt.verify(token, process.env.SECRET);
-      console.log(decodedToken, "i am decoded token");
+      //console.log(decodedToken, "i am decoded token");
       if (!decodedToken.id) {
         response.status(401).json({ error: "token missing or invalid" });
       }
 
       const user = await User.findById(decodedToken.id);
-      console.log(user, "i am user blog");
+      //console.log(user, "i am user blog");
 
       if (!user) {
         response.status(401).json({ error: "token missing or invalid" });
@@ -82,7 +82,7 @@ blogsRouter.post("/", async (request, response, next) => {
       });
       const newBlog = await blog.save(); //refactor using async/await,try,catch
       user.blogs = user.blogs.concat(newBlog._id);
-      console.log(user.blogs);
+      //console.log(user.blogs);
       await user.save();
       response.status(201).json(newBlog);
     }
@@ -104,16 +104,22 @@ blogsRouter.delete("/:id", async (request, response, next) => {
     const blogId = request.params.id;
     const blog = await Blog.findById(blogId);
     console.log(blog);
-    console.log(blogId);
+    console.log(blogId, "blogId");
     if (!blog) {
       return response.status(404).json({ error: "this id does not exist" });
     }
 
+    console.log(blog.user.toString(), "112");
+    console.log(user.id.toString(), "113");
+
     if (blog.user.toString() === user.id.toString()) {
       await Blog.findByIdAndRemove(blogId);
+      console.log("imuser in 113");
       //await Blog.findByIdAndRemove(request.params.id);
+      response.status(204).json({ message: "deleted successfully" }).end();
+    } else {
+      console.log("unsucessful deletion");
     }
-    response.status(204).json({ message: "deleted successfully" }).end();
   } catch (err) {
     next(err);
   }
