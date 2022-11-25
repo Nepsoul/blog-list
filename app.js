@@ -6,6 +6,7 @@ const blogsRouter = require("./controllers/blogs");
 const usersRouter = require("./controllers/users"); //creating users router
 const loginRouter = require("./controllers/login");
 const App = express();
+App.use(express.static("build"));
 
 //App.use..... is middleware
 App.use(cors());
