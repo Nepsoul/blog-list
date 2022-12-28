@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-//handaling env variable extracted from seperate file
+//handling env variable extracted from seperate file
 const PORT = process.env.PORT; //port defining in env to 3003
 const MONGODB_URI =
   process.env.NODE_ENV === "test"

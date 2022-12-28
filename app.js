@@ -21,6 +21,11 @@ App.use("/api/blogs", blogsRouter); //calling blogs api via notesRouter
 App.use("/api/users", usersRouter); //for userRouter
 App.use("/api/login", loginRouter);
 
+if (process.env.NODE_ENV === "test") {
+  const testingRouter = require("./controllers/testingRouter");
+  App.use("/api/testingRouter", testingRouter);
+}
+
 App.use(middleware.unknownEndpoint); //no route found, error through this middleware
 App.use(middleware.errorHandler);
 //this has to be last loaded middleware
