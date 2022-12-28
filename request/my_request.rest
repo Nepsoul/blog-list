@@ -6,10 +6,10 @@ DELETE   http://localhost:3003/api/blogs/6333f3ac81375384346807de
 ###
 POST    http://localhost:3003/api/blogs/
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imdyb290IiwiaWQiOiI2MzU0MjIzMTY3YTRmMzBlYWZkZjBkOGEiLCJpYXQiOjE2NjY1NDIzNjcsImV4cCI6MTY2NjU0NTk2N30.86zNEV1DcTeWZZFXQWpvbxPCxa_fjvaQbayfQ5_AriA
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imdyb290IiwiaWQiOiI2MzU0MjIzMTY3YTRmMzBlYWZkZjBkOGEiLCJpYXQiOjE2Njk2MTk2NTMsImV4cCI6MTY2OTYyMzI1M30.MEX2BoQITILnxaTKetU91FyQLZBrnxQTQ_KBHfDw2gE
 
 {
-   "title":"try token Authorization: ",
+   "title":"new post ",
    "author":"funny gal",
    "url": "nepal.com",
    "likes":200
